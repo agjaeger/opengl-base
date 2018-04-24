@@ -11,6 +11,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QWidget>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QOpenGLWidget>
 #include <QDate>
 #include <QLocale>
@@ -33,7 +34,7 @@ namespace extgraphics {
 			QtVariantPropertyManager *variantManager = new QtVariantPropertyManager();
 			QtGroupBoxPropertyBrowser *variantEditor = new QtGroupBoxPropertyBrowser();
 			
-			ExtGraphicsWindow(QWidget *parent = 0, QOpenGLWidget *glWidget) {
+			ExtGraphicsWindow(QOpenGLWidget *glWidget, QWidget *parent = 0) {
 				this->openGLWidget = glWidget;
 				setupUi(this);
 			}
@@ -67,12 +68,18 @@ namespace extgraphics {
 
 				QtVariantEditorFactory *variantFactory = new QtVariantEditorFactory();
 				variantEditor->setFactoryForManager(variantManager, variantFactory);
-				//variantEditor->addProperty(topItem);
-				////variantEditor->setPropertiesWithoutValueMarked(true);
-				//variantEditor->setRootIsDecorated(false);
 
-				ExtGraphicsWindow->setCentralWidget(variantEditor);
+				QHBoxLayout *mainLayout = new QHBoxLayout;
+				mainLayout->addWidget(openGLWidget);
+				mainLayout->addWidget(variantEditor);
+				
+				 // Set layout in QWidget
+				QWidget *window = new QWidget();
+				window->setLayout(mainLayout);
 
+				// Set QWidget as the central layout of the main window
+				ExtGraphicsWindow->setCentralWidget(window);
+				
 				retranslateUi(ExtGraphicsWindow);
 
 				QMetaObject::connectSlotsByName(ExtGraphicsWindow);

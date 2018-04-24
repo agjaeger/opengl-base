@@ -1,18 +1,19 @@
 #include "extgraphics.hpp"
 #include <QApplication>
 
+#include "glwidget.hpp"
+
 int 
 main (
 	int argc, 
 	char *argv[]
 ) {
     QApplication a(argc, argv);
-    
-    extgraphics::ExtGraphicsWindow w;
-    
-    
-    
-    
+	
+	GLWidget *glWidget = new GLWidget();
+
+    extgraphics::ExtGraphicsWindow w (glWidget);
+
     int i = 0;
     QtProperty *topItem = w.variantManager->addProperty(QtVariantPropertyManager::groupTypeId(),
                 QString::number(i++) + QLatin1String(" Group Property"));
